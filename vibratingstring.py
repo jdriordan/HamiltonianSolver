@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+from __future__ import division, print_function
+
 from functools import partial
 import tensorflow as tf
 import numpy as np
@@ -14,7 +17,10 @@ sess = tf.InteractiveSession()
 string_length = 100;
 h = tf.constant(.05, dtype=tf.float32, name='time_step');
 x0 = np.zeros((1,2*string_length))
-x0[:,-string_length:] = np.array(range(string_length))/string_length
+
+# Initial Condition
+x0[:,-string_length:] += 2*np.exp(-np.linspace(-10,30,string_length)**2)
+x0[:,-string_length:] += np.exp(-np.linspace(-20,10,string_length)**2)
 
 with tf.variable_scope('state'):
     x = tf.Variable(x0, dtype=tf.float32)
